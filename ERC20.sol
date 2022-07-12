@@ -9,7 +9,7 @@ import "./Ownable.sol";
  
 //Actual token contract
 
-contract Demula is ERC20Interface, SafeMath, Ownable, ThisAddress {
+contract ERC20 is ERC20Interface, SafeMath, Ownable, ThisAddress {
     string public symbol;
     string public  name;
     uint8 public decimals;
@@ -20,8 +20,8 @@ contract Demula is ERC20Interface, SafeMath, Ownable, ThisAddress {
     mapping(address => mapping(address => uint)) allowed;
  
     constructor() public {
-        symbol = "DEM";
-        name = "Demula";
+        symbol = "ERC";
+        name = "ERC20";
         decimals = 18;
         _totalSupply = safeMul(100000000, 1000000000000000000);
         Owner = msg.sender;
