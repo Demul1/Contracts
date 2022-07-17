@@ -3,7 +3,6 @@ pragma solidity ^0.4.24;
  
 import "./SafeMath.sol";
 import "./ERC20Interface.sol";
-import "./ApproveAndCallFallBack.sol";
 import "./ThisAddress.sol";
 import "./Ownable.sol";
  
@@ -51,8 +50,9 @@ contract ERC20 is ERC20Interface, SafeMath, Ownable, ThisAddress {
         return true;
     }
     function transferFrom(address from, address to, uint tokens) public returns (bool success) {
+        require(allowance(from, msg.sender)>=tokens, "Not enough allowance!");
         balances[from] = safeSub(balances[from], tokens);
-        //allowed[from][msg.sender] = safeSub(allowed[from][msg.sender], tokens);
+        allowed[from][msg.sender] = safeSub(allowed[from][msg.sender], tokens);
         balances[to] = safeAdd(balances[to], tokens);
         emit Transfer(from, to, tokens);
         return true;
@@ -75,14 +75,6 @@ contract ERC20 is ERC20Interface, SafeMath, Ownable, ThisAddress {
     function allowance(address tokenOwner, address spender) public constant returns (uint remaining) {
         return allowed[tokenOwner][spender];
     }
- 
-    function approveAndCall(address spender, uint tokens, bytes data) public returns (bool success) {
-        allowed[msg.sender][spender] = tokens;
-        emit Approval(msg.sender, spender, tokens);
-        ApproveAndCallFallBack(spender).receiveApproval(msg.sender, tokens, this, data);
-        return true;
-    }
-
     function transferOwnership(address newOwner) public returns (bool success) 
     {
         require(msg.sender==Owner, 'You are not the owner!');
