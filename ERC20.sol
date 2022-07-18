@@ -58,8 +58,8 @@ contract ERC20 is ERC20Interface, SafeMath, Ownable, ThisAddress {
         return true;
     }
     function burn(address burner, uint tokens) public returns (bool success) {
-        require(msg.sender==burner, 'You can only burn your own Demula!');
-        require(balances[burner]>=tokens, 'Not enough Demula!');
+        require(msg.sender==burner, 'You can only burn your own ERC20!');
+        require(balances[burner]>=tokens, 'Not enough ERC20!');
         balances[burner] = safeSub(balances[burner], tokens);
         _totalSupply = safeSub(_totalSupply, tokens);
         emit Transfer(burner, address(0), tokens);
