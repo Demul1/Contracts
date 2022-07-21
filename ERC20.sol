@@ -8,7 +8,7 @@ import "./Ownable.sol";
  
 //Actual token contract
 
-contract ERC20 is ERC20Interface, SafeMath, Ownable, ThisAddress {
+contract ERC20 is ERC20Interface, SafeMath, Ownable {
     string public symbol;
     string public  name;
     uint8 public decimals;
